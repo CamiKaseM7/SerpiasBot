@@ -4,12 +4,9 @@ const channelVerificationShema = new mongoose.Schema({
     moderatorRoleId: { type: String },
     reviewChannelId: {
         type: String,
-        required: true,
-        unique: true,
     },
     finalChannelId: {
         type: String,
-        required: true,
     },
 });
 

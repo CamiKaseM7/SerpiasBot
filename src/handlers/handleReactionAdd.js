@@ -54,9 +54,7 @@ async function handleReactionAdd(reaction, user) {
     const endChannel = await guild.channels.fetch(finalChannelId);
     if (!endChannel) return;
 
-    const content = `||Mensaje aprobado por <@${
-        member.user.id
-    }>||\n\n${message.content.replaceAll("@", "@ ")}`;
+    const content = `\n${message.content.replaceAll("@", "@ ")}`;
     const files = message.attachments.map((attachment) => {
         return attachment.attachment;
     });
