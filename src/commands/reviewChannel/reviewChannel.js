@@ -90,9 +90,11 @@ module.exports = {
         const canManageMessages = memberPerms.has("MANAGE_MESSAGES");
 
         if (!canManageMessages) {
-            interaction.editReply(
-                "❌ Necesitas el permiso `MANAGE_MESSAGES` para ejecutar este comando"
-            );
+            interaction.reply({
+                content:
+                    "❌ Necesitas el permiso `MANAGE_MESSAGES` para ejecutar este comando",
+                ephemeral: true,
+            });
         } else if (interaction.options.getSubcommand() === "add") {
             add(interaction);
         } else if (interaction.options.getSubcommand() === "edit") {

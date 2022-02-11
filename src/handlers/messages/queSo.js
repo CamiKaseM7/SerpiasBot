@@ -4,7 +4,7 @@ const { Message } = require("discord.js");
  * @param {Message} message
  */
 function queSo(message) {
-    if (endsWith(message.content, end))
+    if (endsWith(message.content, "que"))
         message.reply("so <:tf:902561677185277992>");
 }
 
