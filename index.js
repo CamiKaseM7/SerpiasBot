@@ -11,7 +11,6 @@ const {
 const intents = [
     "GUILDS",
     "GUILD_MEMBERS",
-    "GUILD_VOICE_STATES",
     "GUILD_MESSAGES",
     "GUILD_MESSAGE_REACTIONS",
     "GUILD_WEBHOOKS",
