@@ -45,4 +45,5 @@ client.on("messageReactionAdd", (reaction, user) => {
 client.on("interactionCreate", async (interaction) => {
     handleInteraction(interaction);
 });
+
 client.login(token);
