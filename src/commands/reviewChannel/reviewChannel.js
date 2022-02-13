@@ -84,18 +84,7 @@ module.exports = {
      * @param {Interaction} interaction
      */
     execute(interaction) {
-        const memberPerms = interaction.channel.permissionsFor(
-            interaction.member.id
-        );
-        const canManageMessages = memberPerms.has("MANAGE_MESSAGES");
-
-        if (!canManageMessages) {
-            interaction.reply({
-                content:
-                    "❌ Necesitas el permiso `MANAGE_MESSAGES` para ejecutar este comando",
-                ephemeral: true,
-            });
-        } else if (interaction.options.getSubcommand() === "add") {
+        if (interaction.options.getSubcommand() === "add") {
             add(interaction);
         } else if (interaction.options.getSubcommand() === "edit") {
             edit(interaction);
@@ -105,4 +94,5 @@ module.exports = {
             show(interaction);
         }
     },
+    requiredPermissions: ["MANAGE_MESSAGES"],
 };

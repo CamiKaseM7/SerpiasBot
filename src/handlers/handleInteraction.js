@@ -13,6 +13,21 @@ async function handleInteraction(interaction) {
 
     if (!command) return;
 
+    const requiredPermissions = command.requiredPermissions;
+
+    const memberPerms = interaction.channel.permissionsFor(
+        interaction.member.id
+    );
+
+    for (const permission of requiredPermissions) {
+        if (!memberPerms.has(permission)) {
+            return interaction.reply({
+                content: `❌ Necesitas el permiso \`${permission}\` para ejecutar este comando`,
+                ephemeral: true,
+            });
+        }
+    }
+
     try {
         await command.execute(interaction);
     } catch (error) {
