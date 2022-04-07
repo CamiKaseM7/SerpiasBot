@@ -21,11 +21,22 @@ const guildConfigSchema = new mongoose.Schema({
         unique: true,
         required: true,
     },
-
     verificationChannels: {
         type: [channelVerificationShema],
         default: [],
         required: false,
+    },
+    phishing: {
+        mutedRoleId: {
+            type: String,
+            required: false,
+        },
+
+        enabled: {
+            type: Boolean,
+            default: false,
+            required: false,
+        },
     },
 });
 

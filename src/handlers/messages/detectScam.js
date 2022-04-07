@@ -7,6 +7,7 @@ const {
 } = require("../../utils");
 const { discordBadDomainsURL } = require("../../utils/constants");
 const fetch = require("node-fetch");
+const GuildConfig = require("../../schemas/GuildConfig");
 
 /**
  * @param {Message} message
@@ -14,7 +15,6 @@ const fetch = require("node-fetch");
 async function detectScam(message) {
     const urls = getUrls(message.content);
     if (!(urls && urls.length)) return false;
-
     const requets = await fetch(discordBadDomainsURL);
     const discordBadDomains = await requets.json();
 
@@ -24,7 +24,25 @@ async function detectScam(message) {
         const badDomainIndex = indexBinarySearch(hash, discordBadDomains);
 
         if (badDomainIndex > -1) {
-            message.delete().catch((err) => console.log(err));
+            message.delete().catch((err) => console.log(err.message));
+
+            const guildConfig = await GuildConfig.findOne({
+                guildId: message.guildId,
+            });
+
+            if (!guildConfig) return false;
+
+            if (!guildConfig.antiphishing?.enabled) return false;
+
+            if (guildConfig.antiphishing?.mutedRoleId) {
+                message.member.roles
+                    .add(mutedRoleId)
+                    .catch((err) => console.log(err.message));
+            }
+
+            message.member.roles
+                .add(mutedRoleId)
+                .catch((err) => console.log(err.message));
 
             const ebd = new MessageEmbed()
                 .setTitle("Cuidado!")
