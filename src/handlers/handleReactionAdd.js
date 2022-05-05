@@ -30,6 +30,15 @@ async function handleReactionAdd(reaction, user) {
 
     const { moderatorRoleId, finalChannelId } = channelConfig;
 
+    const memberPerms = channel.permissionsFor(member.id);
+    const canManageMessages = memberPerms.has("MANAGE_MESSAGES");
+    const hasModeratorRole = moderatorRoleId
+        ? hasRole(member, moderatorRoleId)
+        : false;
+
+    const authorized = canManageMessages || hasModeratorRole;
+    if (!authorized) return;
+
     if (reaction.emoji.name == "🔴") {
         reaction.message.delete().catch((err) => {
             console.log(err.message);
@@ -41,15 +50,6 @@ async function handleReactionAdd(reaction, user) {
     reaction.message.delete().catch((err) => {
         console.log(err.message);
     });
-
-    const memberPerms = channel.permissionsFor(member.id);
-    const canManageMessages = memberPerms.has("MANAGE_MESSAGES");
-    const hasModeratorRole = moderatorRoleId
-        ? hasRole(member, moderatorRoleId)
-        : false;
-
-    const authorized = canManageMessages || hasModeratorRole;
-    if (!authorized) return;
 
     const endChannel = await guild.channels.fetch(finalChannelId);
     if (!endChannel) return;
