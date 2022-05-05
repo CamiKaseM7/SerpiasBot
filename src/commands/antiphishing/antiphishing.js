@@ -54,10 +54,10 @@ module.exports = {
             }
         }
         
-        guildConfig.phishing = {
-            enabled: enabled || guildConfig.phishing.enabled || false,
+        guildConfig.antiphishing = {
+            enabled: enabled || guildConfig.antiphishing.enabled || false,
             mutedRoleId:
-                mutedRole.id || guildConfig.phishing.mutedRoleId || null,
+                mutedRole.id || guildConfig.antiphishing.mutedRoleId || null,
         };
 
         await guildConfig.save();

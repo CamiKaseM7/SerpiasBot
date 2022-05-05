@@ -25,16 +25,17 @@ async function detectScam(message) {
 
         if (badDomainIndex > -1) {
             message.delete().catch((err) => console.log(err.message));
-
+            debugger;
             const guildConfig = await GuildConfig.findOne({
                 guildId: message.guildId,
             });
-
+            
             if (!guildConfig) return false;
 
             if (!guildConfig.antiphishing?.enabled) return false;
-
-            if (guildConfig.antiphishing?.mutedRoleId) {
+            
+            const mutedRoleId = guildConfig.antiphishing?.mutedRoleId;
+            if (mutedRoleId) {
                 message.member.roles
                     .add(mutedRoleId)
                     .catch((err) => console.log(err.message));
