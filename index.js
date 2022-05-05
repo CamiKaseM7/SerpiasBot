@@ -1,6 +1,10 @@
 const { Client, Collection } = require("discord.js");
 const { token } = require("./config.json");
+const { mongooseServer } = require("./config.json");
 const fs = require("fs");
+
+const mongoose = require("mongoose");
+mongoose.connect(mongooseServer, () => {console.log("connected to db")});
 
 const {
     handleMessage,

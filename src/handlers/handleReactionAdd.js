@@ -1,9 +1,6 @@
 const GuildConfig = require("../schemas/GuildConfig");
-const mongoose = require("mongoose");
 const { sendWebHook, findChannelConfig, hasRole } = require("../utils");
 const { MessageReaction, PartialMessageReaction, User } = require("discord.js");
-
-mongoose.connect("mongodb://localhost/Test");
 
 /**
  * @param {MessageReaction | PartialMessageReaction} reaction

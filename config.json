@@ -1,5 +1,6 @@
 {
     "token": "XXXXXXXXXX",
     "clientId": "XXXXXXXXXX",
-    "guildId": "XXXXXXXXXX"
+    "guildId": "XXXXXXXXXX",
+    "mongooseServer": "XXXXXXXXXX"
 }
