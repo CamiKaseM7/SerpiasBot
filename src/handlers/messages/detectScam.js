@@ -40,10 +40,6 @@ async function detectScam(message) {
                     .catch((err) => console.log(err.message));
             }
 
-            message.member.roles
-                .add(mutedRoleId)
-                .catch((err) => console.log(err.message));
-
             const ebd = new MessageEmbed()
                 .setTitle("Cuidado!")
                 .setDescription(`\`${domain}\` **es una pagina maliciosa**`)
