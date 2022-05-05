@@ -3,6 +3,7 @@ const { Interaction } = require("discord.js");
 const GuildConfig = require("../../schemas/GuildConfig");
 
 module.exports = {
+    requiredPermissions: ["MANAGE_MESSAGES", "MANAGE_ROLES"],
     data: new SlashCommandBuilder()
         .setName("antiphishing")
         .setDescription("Configurar el sistema anti-phishing")
@@ -34,24 +35,25 @@ module.exports = {
                 guildId: interaction.guildId,
             });
 
-        if (mutedRole.managed) {
-            interaction.editReply(
-                "❌ Rol invalido, es un rol especial controlado por un servicio externo"
-            );
-            return;
+        if (mutedRole){
+            if (mutedRole.managed) {
+                interaction.editReply(
+                    "❌ Rol invalido, es un rol especial controlado por un servicio externo"
+                );
+                return;
+            }
+    
+            const cannotBotManageRole =
+                interaction.guild.me.roles.highest.comparePositionTo(mutedRole) <= 0;
+    
+            if (cannotBotManageRole) {
+                interaction.editReply(
+                    "❌ Rol invalido, no tengo dereches sobre ese rol. Debo tener un rol arriba de ese en la lista de roles"
+                );
+                return;
+            }
         }
-
-        const canBotManageRole =
-            interaction.guild.me.roles.highest.comparePositionTo(mutedRole) <=
-            0;
-
-        if (canBotManageRole) {
-            interaction.editReply(
-                "❌ Rol invalido, no tengo dereches sobre ese rol. Debo tener un rol arriba de ese en la lista de roles"
-            );
-            return;
-        }
-
+        
         guildConfig.phishing = {
             enabled: enabled || guildConfig.phishing.enabled || false,
             mutedRoleId:
@@ -61,6 +63,5 @@ module.exports = {
         await guildConfig.save();
 
         await interaction.editReply("✅ Configuracion agregada");
-    },
-    requiredPermissions: ["MANAGE_MESSAGES", "MANAGE_ROLES"],
+    }
 };
